@@ -2,7 +2,7 @@
 
 <p align="center">
 
-<img src="https://github.com/dudwns9331/ReactStudy/blob/master/ReactJS/images/book.PNG" width="573px" height="735px">
+<img src="https://github.com/dudwns9331/ReactStudy/blob/master/images/book.png" width="573px" height="735px">
 
 </p>
 
