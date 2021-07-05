@@ -1,0 +1,10 @@
+{
+    "rootDir" : "scr",
+    "compilerOptions": {
+        "target": "es6",
+        "baseUrl": "src",
+        "paths": {
+            "*":["*"]
+        }
+    }
+}
