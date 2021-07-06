@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useReducer, useRef, useState } from 'react';
 import TodoInsert from 'components/Todo/TodoInsert';
 import TodoList from 'components/Todo/TodoList';
 import TodoTemplate from 'components/Todo/TodoTemplate';
@@ -16,9 +16,29 @@ function createBulkTodos() {
   return array;
 }
 
+function todoReducer(todos, action) {
+  switch (action.type) {
+    case 'INSERT': // 새로 추가
+      // { type : 'INSERT', todo : { id : 1, text : 'todo', checked: false } }
+      return todos.concat(action.todo);
+
+    case 'REMOVE': // 제거
+      // { type : 'REMOVE', id : 1 }
+      return todos.filter((todo) => todo.id !== action.id);
+
+    case 'TOGGLE': // 토글
+      // { type : 'TOGGLE', id : 1}
+      return todos.map((todo) =>
+        todo.id !== action.id ? { ...todo, checked: !todo.checked } : todo,
+      );
+
+    default:
+      return todos;
+  }
+}
+
 const App = () => {
-  // useState(함수이름) 을 통해서 처음 렌더링 시에 createBulkTodos가 실행되게 한다.
-  const [todos, setTodos] = useState(createBulkTodos);
+  const [todos, dispatch] = useReducer(todoReducer, undefined, createBulkTodos);
 
   // 고윳값으로 사용될 id
   // ref를 사용하여 변수 담기
@@ -30,20 +50,16 @@ const App = () => {
       text,
       checked: false,
     };
-    setTodos((todos) => todos.concat(todo));
+    dispatch({ type: 'INSERT', todo });
     nextId.current += 1; // nextId 1씩 더하기
   }, []);
 
   const onRemove = useCallback((id) => {
-    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+    dispatch({ type: 'REMOVE', id });
   }, []);
 
   const onToggle = useCallback((id) => {
-    setTodos((todos) =>
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, checked: !todo.checked } : todo,
-      ),
-    );
+    dispatch({ type: 'TOGGLE', id });
   }, []);
 
   return (
