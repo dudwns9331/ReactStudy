@@ -907,8 +907,6 @@ usePromise를 사용하면 NewsList에서 대기 중 상태 관리와 useEffect 
 
 ---
 
-<br>
-
 ### 14.9 정리
 
 <br>
